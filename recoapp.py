@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 import seaborn as sns
 import os
+import sys
 import datetime
 
 import warnings
@@ -92,7 +93,7 @@ def process_vendors(location,filename):
   primary_tags_mod - Removes the constant prefix in values of primary_tags
   commission, language, vendor_locations - Fixes null values 
   '''
-  vendors = pd.read_csv(location + filename, sep=',', encoding="utf-8",encoding_errors="ignore")
+  vendors = pd.read_csv(os.path.join(os.getcwd(), filename), sep=',', encoding="utf-8",encoding_errors="ignore")
   vendors["id"] = vendors["id"].astype('str')
   vendors.rename(columns={'id':'vendor_id'},inplace=True)
 
@@ -167,7 +168,8 @@ def process_vendor_summary(location,filename):
   total discount amount
 
   '''
-  orders = pd.read_csv(location + filename)
+
+  orders = pd.read_csv(os.path.join(os.getcwd(), filename))
   orders.drop_duplicates(subset=['akeed_order_id'],inplace=True)
   orders['created_at'] = pd.to_datetime(orders["created_at"])
   orders['delivered_time'] = pd.to_datetime(orders['delivered_time']) 
@@ -206,7 +208,7 @@ def process_customer_demo(location,filename):
 
   '''
 
-  customers = pd.read_csv(location + filename)
+  customers = pd.read_csv(os.path.join(os.getcwd(), filename))
   customers["updated_at"] = pd.to_datetime(customers["updated_at"])
   customers["created_at"] = pd.to_datetime(customers["created_at"])
 
@@ -242,7 +244,7 @@ def process_customer_location(location,filename):
 
   '''
   
-  locations = pd.read_csv(location + filename)
+  locations = pd.read_csv(os.path.join(os.getcwd(), filename))
   locations["location_type"].fillna('Null',inplace=True)
   locations['location_type'] = locations['location_type'].map({'Null':0,'Home':1,'Work':2,'Other':3})
 
@@ -341,7 +343,7 @@ def merge_demo_loc_vendor(demographics_df,location_df,vendors_df,is_target_prese
     # Create target variable
     # Merge feature data with order data to create the target variable
     # Those with matches in the order table are considered as positive class since the customer has ordered from the vendor
-    orders = pd.read_csv(input_location + orders_file)
+    orders = pd.read_csv(os.path.join(os.getcwd(), orders_file))
     orders.drop_duplicates(subset=['CID X LOC_NUM X VENDOR'],inplace=True)
     orders["target"] = 1   
     cust_vendorval = pd.merge(cust_vendorval,orders[['CID X LOC_NUM X VENDOR','target']],on='CID X LOC_NUM X VENDOR',how="left")
