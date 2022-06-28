@@ -326,7 +326,7 @@ def merge_demo_loc_vendor(demographics_df,location_df,vendors_df,is_target_prese
   location_demograph["key"] = 1
   cust_vendorval = location_demograph.merge(vendors_df,on="key") #cartesian join
   cust_vendorval["CID X LOC_NUM X VENDOR"] = cust_vendorval["customer_id"] + " X " + cust_vendorval["location_number"].astype('str') + " X " + cust_vendorval["vendor_id"].astype('str')
-  cust_vendorval = cust_vendorval.iloc[0:1000000]
+  cust_vendorval = cust_vendorval.iloc[0:500000]
   
   # Compute haversine distance between vendor and customer
   # Extract features comparing haversine distance and serving distance of the vendor using differences and ratios
