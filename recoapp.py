@@ -454,7 +454,7 @@ def final_pred(customer_demographics,customer_locations):
   num_ohe_dim = X_ohe_num.shape[1]
   status_upd.text("Feature Scaling and Tokenization Completed!!")
   #Load the trained model
-  reco_model = keras.models.load_model(model_location+"dl_model")
+  reco_model = keras.models.load_model(os.path.join(os.getcwd(), 'dl_model'))
   status_upd.text("Models Loaded!!")
   #Predict using the trained model
   y_pred = reco_model.predict([X_monvencre_seq,X_custcity_seq,X_custcountry_seq,X_primarytag_seq,X_vendortag_padded,X_ohe_num], batch_size=256)
@@ -502,7 +502,7 @@ def final_pred_evaluate(customer_demographics,customer_locations):
   num_ohe_dim = X_ohe_num.shape[1]
   status_upd.text("Feature Scaling and Tokenization Completed!!")
   #Load the trained model
-  reco_model = keras.models.load_model(model_location+"dl_model")
+  reco_model = keras.models.load_model(os.path.join(os.getcwd(), 'dl_model'))
   status_upd.text("Models Loaded!!")
   #Predict using the trained model
   y_pred = reco_model.predict([X_monvencre_seq,X_custcity_seq,X_custcountry_seq,X_primarytag_seq,X_vendortag_padded,X_ohe_num], batch_size=256)
@@ -633,19 +633,20 @@ primarytag_embed_dim  = 3
 vendortag_embed_dim   = 3
 
 #Load trained feature encoders, scalers and tokenizers
-with open(scaler_location + 'onehotencoder.pickle', 'rb') as handle:
+
+with open(os.path.join(os.getcwd(), 'scalers', 'onehotencoder.pickle'), 'rb') as handle:
   ohe = pickle.load(handle)
-with open(scaler_location + 'minmaxscaler.pickle', 'rb') as handle:
+with open(os.path.join(os.getcwd(), 'scalers', 'minmaxscaler.pickle'), 'rb') as handle:
   minmaxscaler = pickle.load(handle)
-with open(scaler_location + 'monvencre_tokenizer.pickle', 'rb') as handle:
+with open(os.path.join(os.getcwd(),  'scalers','monvencre_tokenizer.pickle'), 'rb') as handle:
   monvencre_tokenizer = pickle.load(handle)
-with open(scaler_location + 'custcity_tokenizer.pickle', 'rb') as handle:
+with open(os.path.join(os.getcwd(),  'scalers','custcity_tokenizer.pickle'), 'rb') as handle:
   custcity_tokenizer = pickle.load(handle)
-with open(scaler_location + 'custcountry_tokenizer.pickle', 'rb') as handle:
+with open(os.path.join(os.getcwd(),  'scalers','custcountry_tokenizer.pickle'), 'rb') as handle:
   custcountry_tokenizer = pickle.load(handle)
-with open(scaler_location + 'primarytag_tokenizer.pickle', 'rb') as handle:
+with open(os.path.join(os.getcwd(), 'scalers','primarytag_tokenizer.pickle'), 'rb') as handle:
   primarytag_tokenizer = pickle.load(handle)
-with open(scaler_location + 'vendortag_tokenizer.pickle', 'rb') as handle:
+with open(os.path.join(os.getcwd(), 'scalers','vendortag_tokenizer.pickle'), 'rb') as handle:
   vendortag_tokenizer = pickle.load(handle)
 
 monvencre_count   = len(monvencre_tokenizer.word_index)
